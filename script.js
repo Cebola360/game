@@ -1,56 +1,65 @@
+// Importando lista de paises, jogadores e fronteiras da pasta entidades
+import { listaPaises } from "./entidades/paises.js";
+import { jogador1, jogador2 } from "./entidades/jogadores.js";
+import { fronteiras } from "./entidades/fronteiras.js";
+
+// Importando timer e barra de feedback do país clicado da pasta interface
+import { iniciarTimer } from "./interface/timer.js";
+import { barraFeedbackPaisClicado } from "./interface/barra_de_feedback.js";
+
+// Importando mecanicas de embaralhar paises logo no inicio do jogo e de mostrar países vizinhos
+import { EmbaralharPaisesIniciais } from "./mecanicas/embaralhar_paises.js";
+import { mostrarVizinhos } from "./mecanicas/mostrar_vizinhos.js";
+
 const mapa = document.getElementById("mapa");
 const nomePais = document.getElementById("nomePais");
 const display = document.getElementById("tempo");
 
+// CARREGANDO MAPA
 fetch("mapa.svg")
+
   .then(response => {
     if (!response.ok) {
       throw new Error("Arquivo mapa.svg não encontrado");
     }
     return response.text();
   })
+
   .then(svg => {
     mapa.innerHTML = svg;
-
+    // Territórios (países)
     const territorios = mapa.querySelectorAll("path");
+
+    // Distribuição inicial de países por jogadores (3 países pra cada jogador)
+    EmbaralharPaisesIniciais(
+      listaPaises,
+      jogador1,
+      jogador2,
+      mapa
+    );
 
     territorios.forEach(territorio => {
       territorio.addEventListener("click", () => {
-        territorio.style.fill = "red";
+        mostrarVizinhos(
+          territorio,
+          fronteiras
+        );
       });
 
-      territorio.addEventListener("mouseenter", () => {
-        nomePais.textContent = territorio.id || "desconhecido";
-      });
+      barraFeedbackPaisClicado(
+        territorio,
+        nomePais
+      );
 
-      territorio.addEventListener("mouseleave", () => {
-        nomePais.textContent = "Passe o mouse em um território";
-      });
     });
   })
   .catch(error => {
     console.error("Erro ao carregar o mapa:", error);
-    nomePais.textContent = "Erro ao carregar mapa";
+    nomePais.textContent =
+      "Erro ao carregar mapa";
   });
 
-let tempoRestante = 30;
+// T
+iniciarTimer(display, 300);
 
-function atualizarTimer() {
-  let minutos = Math.floor(tempoRestante / 60);
-  let segundos = tempoRestante % 60;
 
-  minutos = minutos.toString().padStart(2, "0");
-  segundos = segundos.toString().padStart(2, "0");
-
-  display.textContent = `${minutos}:${segundos}`;
-
-  if (tempoRestante > 0) {
-    tempoRestante--;
-  } else {
-    clearInterval(timer);
-    alert("Tempo esgotado!");
-  }
-}
-
-atualizarTimer();
-const timer = setInterval(atualizarTimer, 1000);

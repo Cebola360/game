@@ -1,0 +1,52 @@
+.hud {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+}
+
+.timer {
+  background: rgba(0,0,0,0.85);
+  padding: 15px 25px;
+  border-radius: 10px;
+  border: 2px solid white;
+}
+
+#tempo {
+  color: white;
+  font-size: 32px;
+  font-family: monospace;
+}
+
+#nomePais {
+  background: rgba(0,0,0,0.85);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+h1 {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  z-index: 6;
+  text-align: center;
+}
+
+.amarelo { background: #f10f31; color: black; }
+.azul { background: #3498db; }
+
+.numero { font-size: 22px; }
+.porcentagem { font-size: 16px; }

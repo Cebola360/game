@@ -1,0 +1,30 @@
+export const listaPaises = [
+
+  "China",
+  "India",
+  "Japão",
+  "Russia Oriental",
+  "Brasil",
+  "Argentina",
+  "Colombia",
+  "Chile",
+  "Bolivia",
+  "Sudão",
+  "Nigeria",
+  "Congo",
+  "Africa do Sul",
+  "Egito",
+  "Marrocos",
+  "Estados Unidos",
+  "Canada",
+  "Mexico",
+  "Espanha",
+  "Alemanha",
+  "Polonia",
+  "Suecia",
+  "Russia Ocidental",
+  "Inglaterra",
+  "Islandia",
+  "Groelandia"
+
+];

@@ -1,0 +1,36 @@
+.map-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  background-image: url("fundo.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.countries {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.countries svg {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85vw;
+  height: 85vh;
+  display: block;
+}
+
+.countries path {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.countries path:hover {
+  filter: brightness(0.5) sepia(1) hue-rotate(-25deg) saturate(10);
+}
