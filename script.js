@@ -38,20 +38,126 @@ fetch("mapa.svg")
       mapa
     );
 
-    territorios.forEach(territorio => {
-      territorio.addEventListener("click", () => {
-        mostrarVizinhos(
-          territorio,
-          fronteiras
-        );
+    // Mostrando países que fazem fronteira com o país que for clicado
+    let jogadorAtual = "red";
+
+let vizinhosValidos = [];
+
+function corDoJogador(cor, jogador) {
+
+  if (jogador === "red") {
+    return cor === "red" || cor === "#ff0000";
+  }
+
+  if (jogador === "blue") {
+    return cor === "blue" || cor === "#0000ff";
+  }
+
+  return false;
+
+}
+
+territorios.forEach(territorio => {
+
+  territorio.addEventListener("click", () => {
+
+    const cor = territorio.getAttribute("fill");
+
+    // =========================
+    // PRIMEIRO CLIQUE
+    // =========================
+
+    if (
+      corDoJogador(cor, jogadorAtual)
+    ) {
+
+      // limpa fronteiras antigas
+      vizinhosValidos.forEach(v => {
+
+        if (
+          v.getAttribute("fill") === "#ffc0cb"
+        ) {
+
+          const corOriginal =
+            v.dataset.corOriginal;
+
+          v.setAttribute(
+            "fill",
+            corOriginal
+          );
+
+        }
+
       });
 
-      barraFeedbackPaisClicado(
+      vizinhosValidos = mostrarVizinhos(
         territorio,
-        nomePais
+        fronteiras
       );
 
-    });
+      // salva cor original
+      vizinhosValidos.forEach(vizinho => {
+
+        vizinho.dataset.corOriginal =
+          vizinho.getAttribute("fill");
+
+        vizinho.setAttribute(
+          "fill",
+          "#ffc0cb"
+        );
+
+      });
+
+      return;
+    }
+
+    // =========================
+    // SEGUNDO CLIQUE
+    // =========================
+
+    if (
+      vizinhosValidos.includes(territorio)
+    ) {
+
+      // conquista território
+      territorio.setAttribute(
+        "fill",
+        jogadorAtual
+      );
+
+      // restaura outros vizinhos
+      vizinhosValidos.forEach(vizinho => {
+
+        if (vizinho !== territorio) {
+
+          vizinho.setAttribute(
+            "fill",
+            vizinho.dataset.corOriginal
+          );
+
+        }
+
+      });
+
+      // limpa lista
+      vizinhosValidos = [];
+
+      // troca turno INFINITAMENTE
+      jogadorAtual =
+        jogadorAtual === "red"
+          ? "blue"
+          : "red";
+
+      console.log(
+        "Turno:",
+        jogadorAtual
+      );
+
+    }
+
+  });
+
+});
   })
   .catch(error => {
     console.error("Erro ao carregar o mapa:", error);
@@ -59,7 +165,7 @@ fetch("mapa.svg")
       "Erro ao carregar mapa";
   });
 
-// T
+// Timer
 iniciarTimer(display, 300);
 
 

@@ -1,3 +1,5 @@
+// Mostrando países que fazem fronteira com o país clicado
+
 export function mostrarVizinhos(
   territorio,
   fronteiras
@@ -5,22 +7,26 @@ export function mostrarVizinhos(
 
   const paisClicado = territorio.id;
 
-  const vizinhos = fronteiras[paisClicado];
+  const nomesVizinhos = fronteiras[paisClicado];
 
-  if(vizinhos){
+  const listaVizinhos = [];
 
-    vizinhos.forEach(nomeVizinho => {
+  if(nomesVizinhos){
+
+    nomesVizinhos.forEach(nomeVizinho => {
 
       const vizinho = document.getElementById(nomeVizinho);
 
       if(vizinho){
 
-        vizinho.setAttribute("fill", "#ffc0cb");
+        listaVizinhos.push(vizinho);
 
       }
 
     });
 
   }
+
+  return listaVizinhos;
 
 }
