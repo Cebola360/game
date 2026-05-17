@@ -1,6 +1,6 @@
 {
-  "name": "@SimonS2003/game",
-  "version": "1.0.0",
+  "name": "@leehsantos13/game",
+  "version": "1.0.2",
   "description": "Jogo web inspirado no War",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/SimonS2003/game.git"
+    "url": "https://github.com/leehsantos13/game.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
