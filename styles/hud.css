@@ -11,9 +11,9 @@
 }
 
 .timer {
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.50);
   padding: 15px 25px;
-  border-radius: 10px;
+  border-radius: 40px;
   border: 2px solid white;
 }
 
@@ -59,13 +59,15 @@ h1 {
 .box {
   width: 140px;
   height: 80px;
-  border-radius: 10px;
+  border-radius: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
   color: white;
   font-weight: bold;
+
+  transform: translateX(-30px);
 }
 
 .box img {
