@@ -1,107 +1,12 @@
+import { perguntas } from "../entidades/perguntas.js";
+
 import { mostrarVizinhos } from "./mostrar_vizinhos.js";
-
-function limparVizinhosMarcados(estado, territorioConquistado = null) {
-  estado.vizinhosValidos.forEach(vizinho => {
-    if (vizinho !== territorioConquistado && vizinho.dataset.corOriginal) {
-      vizinho.setAttribute("fill", vizinho.dataset.corOriginal);
-    }
-
-    delete vizinho.dataset.corOriginal;
-  });
-
-  estado.vizinhosValidos = [];
-  estado.territorioSelecionado = null;
-}
-
-function atualizarJogadorAtivo(estado) {
-  const boxJogador1 = document.getElementById("jogador-vermelho");
-  const boxJogador2 = document.getElementById("jogador-azul");
-
-  if (!boxJogador1 || !boxJogador2) {
-    return;
-  }
-
-  boxJogador1.classList.remove("ativo");
-  boxJogador2.classList.remove("ativo");
-
-  if (estado.jogadorAtual === estado.jogadores[0]) {
-    boxJogador1.classList.add("ativo");
-  } else {
-    boxJogador2.classList.add("ativo");
-  }
-}
-
-function atualizarListaJogadores(estado) {
-  const listaJogador1 = document.getElementById("lista-jogador1");
-  const listaJogador2 = document.getElementById("lista-jogador2");
-
-  const qtdJogador1 = document.getElementById("qtd-jogador1");
-  const qtdJogador2 = document.getElementById("qtd-jogador2");
-
-  const jogador1 = estado.jogadores[0];
-  const jogador2 = estado.jogadores[1];
-
-  if (qtdJogador1) {
-    qtdJogador1.textContent = jogador1.paises.length;
-  }
-
-  if (qtdJogador2) {
-    qtdJogador2.textContent = jogador2.paises.length;
-  }
-
-  if (listaJogador1) {
-    listaJogador1.innerHTML = "";
-
-    jogador1.paises.forEach(pais => {
-      const item = document.createElement("li");
-      item.textContent = pais;
-      listaJogador1.appendChild(item);
-    });
-  }
-
-  if (listaJogador2) {
-    listaJogador2.innerHTML = "";
-
-    jogador2.paises.forEach(pais => {
-      const item = document.createElement("li");
-      item.textContent = pais;
-      listaJogador2.appendChild(item);
-    });
-  }
-}
-
-function removerTerritorioDeTodos(nomeTerritorio, jogadores) {
-  jogadores.forEach(jogador => {
-    jogador.paises = jogador.paises.filter(pais => pais !== nomeTerritorio);
-  });
-}
-
-function adicionarTerritorioAoJogador(nomeTerritorio, jogador) {
-  if (!jogador.paises.includes(nomeTerritorio)) {
-    jogador.paises.push(nomeTerritorio);
-  }
-}
-
-function trocarJogador(estado) {
-  const jogador1 = estado.jogadores[0];
-  const jogador2 = estado.jogadores[1];
-
-  if (estado.jogadorAtual === jogador1) {
-    estado.jogadorAtual = jogador2;
-  } else {
-    estado.jogadorAtual = jogador1;
-  }
-
-  atualizarJogadorAtivo(estado);
-
-  if (estado.statusJogo) {
-    estado.statusJogo.textContent = `Vez de ${estado.jogadorAtual.nome}`;
-  }
-
-  if (estado.reiniciarTimer) {
-    estado.reiniciarTimer();
-  }
-}
+import { limparVizinhosMarcados } from "./controlar_turno_mecanicas/limpar_vizinhos_marcados.js";
+import { atualizarJogadorAtivo } from "./controlar_turno_mecanicas/atualizar_jogador_ativos.js";
+import { removerTerritorioDeTodos, adicionarTerritorioAoJogador } from "./controlar_turno_mecanicas/remover_e_adicionar_territorio.js";
+import { atualizarListaJogadores } from "./controlar_turno_mecanicas/atualizar_lista_jogadores.js";
+import { trocarJogador } from "./controlar_turno_mecanicas/trocar_jogador.js";
+import { mostrarPergunta } from "./controlar_turno_mecanicas/mostrar_pergunta.js";
 
 function conquistarTerritorio(territorio, estado) {
   const jogadorAtual = estado.jogadorAtual;
@@ -184,11 +89,86 @@ export function controlarTurno(territorio, fronteiras, estado) {
     return;
   }
 
-  // Segundo clique: se clicou em um vizinho válido, conquista direto
-  if (estado.vizinhosValidos.includes(territorio)) {
-    conquistarTerritorio(territorio, estado);
-    return;
+function pegarPerguntaAleatoria() {
+
+  // reinicia quando acabar
+  if (
+    perguntasDisponiveis.length === 0
+  ) {
+
+    perguntasDisponiveis =
+      [...perguntas];
+
   }
+
+  const indice =
+    Math.floor(
+      Math.random() *
+      perguntasDisponiveis.length
+    );
+
+  const pergunta =
+    perguntasDisponiveis[indice];
+
+  // remove pergunta usada
+  perguntasDisponiveis.splice(
+    indice,
+    1
+  );
+
+  return pergunta;
+
+}
+
+let perguntaAleatoria =
+
+  perguntas[
+    Math.floor(
+      Math.random() *
+      perguntas.length
+    )
+  ];
+
+console.log(perguntaAleatoria);
+
+  // Segundo clique: se clicou em um vizinho válido, conquista direto
+  if (
+  estado.vizinhosValidos.includes(
+    territorio
+  )
+) {
+
+  mostrarPergunta(
+    perguntaAleatoria.pergunta,
+
+  perguntaAleatoria.alternativas,
+
+  perguntaAleatoria.correta,
+
+    (acertou) => {
+
+  if (acertou) {
+
+    conquistarTerritorio(
+      territorio,
+      estado
+    );
+
+  } else {
+
+  limparVizinhosMarcados(estado);
+
+  trocarJogador(estado);
+
+}
+
+}
+
+  );
+
+  return;
+
+}
 
   if (estado.statusJogo) {
     estado.statusJogo.textContent =
