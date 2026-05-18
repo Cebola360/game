@@ -15,6 +15,9 @@ const display = document.getElementById("tempo");
 const btnIniciar = document.getElementById("btnIniciar");
 const statusJogo = document.getElementById("statusJogo");
 
+const timer = document.querySelector(".timer");
+timer.style.backgroundColor ="red";
+
 let territorios = [];
 
 const estadoJogo = {
