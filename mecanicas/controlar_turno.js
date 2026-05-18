@@ -156,6 +156,32 @@ console.log(perguntaAleatoria);
 
   } else {
 
+   const aviso = document.getElementById("aviso");
+
+  aviso.innerText = `❌ ${jogadorAtual.nome} errou a pergunta!`;
+
+  // REMOVE cores antigas
+  aviso.classList.remove("aviso-vermelho");
+  aviso.classList.remove("aviso-azul");
+
+  console.log(jogadorAtual);
+  console.log(jogadorAtual.nome);
+  console.log(jogadorAtual.cor);
+
+  // ADICIONA nova cor
+  if (jogadorAtual.nome === "Jogador 1") {
+    aviso.classList.add("aviso-vermelho");
+  } else {
+    aviso.classList.add("aviso-azul");
+  }
+
+  aviso.style.display = "block";
+
+  setTimeout(() => {
+    aviso.style.display = "none";
+  }, 3000);
+
+
   limparVizinhosMarcados(estado);
 
   trocarJogador(estado);
