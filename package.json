@@ -1,0 +1,17 @@
+{
+  "name": "@leehsantos13/game",
+  "version": "1.0.4",
+  "description": "Jogo web inspirado no War",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Sem testes configurados ainda\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leehsantos13/game.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "license": "MIT"
+}
