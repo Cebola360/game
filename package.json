@@ -1,6 +1,6 @@
 {
   "name": "@leehsantos13/game",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Jogo web inspirado no War",
   "main": "index.js",
   "scripts": {
